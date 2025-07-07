@@ -85,7 +85,7 @@
       .then(data => {
         const code = data.code;
         document.getElementById("code").innerText = code;
-        document.getElementById("whatsapp").href = `https://wa.me/?text=Rejoins LOU avec ce code ${code} pour bénéficier d’un bonus exclusif ! 💰`;
+        document.getElementById("whatsapp").href = `https://wa.me/?text=${encodeURIComponent(`Rejoins LOU avec ce code ${code} pour bénéficier d’un bonus exclusif ! 💰 👉 https://lou-ici.com`)}`;
       })
       .catch(() => {
         document.getElementById("code").innerText = "Erreur de connexion.";
