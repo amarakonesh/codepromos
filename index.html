@@ -24,6 +24,23 @@
       padding: 12px 20px;
       text-decoration: none;
       border-radius: 6px;
+      cursor: pointer;
+    }
+    .info-box {
+      display: none;
+      margin-top: 30px;
+      background-color: #e9fef3;
+      padding: 20px;
+      border: 1px solid #b5e8d3;
+      border-radius: 8px;
+      color: #2f6f5e;
+      text-align: left;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .info-box h3 {
+      margin-top: 0;
     }
   </style>
 </head>
@@ -31,24 +48,58 @@
   <h1>🎁 Partagez votre code LOU</h1>
   <p>Invitez vos amis et recevez des crédits LOU lorsqu’ils s’inscrivent.</p>
   <div id="code" class="code">Chargement...</div>
-  <a id="whatsapp" class="btn" target="_blank">📲 Partager sur WhatsApp</a>
+  <a id="whatsapp" class="btn" target="_blank">📲 Partager sur WhatsApp</a><br>
+  <button class="btn" onclick="toggleInfo()">📜 Conditions LOU BONUS</button>
+
+  <div class="info-box" id="info">
+    <h3>📜 Conditions du programme LOU BONUS</h3>
+    <ul>
+      <li>🎯 À chaque ami inscrit avec votre code, vous gagnez un point de parrainage.</li>
+      <li>💰 Récompenses :
+        <ul>
+          <li>3 filleuls = 2 000 FCFA de crédit LOU</li>
+          <li>5 filleuls = 5 000 FCFA + badge Ambassadeur</li>
+          <li>10 filleuls = 10 000 FCFA + accès anticipé aux offres</li>
+        </ul>
+      </li>
+      <li>🔒 Le solde LOU est utilisable uniquement pour les réservations sur l’application (non transférable).</li>
+      <li>⏰ Les crédits expirent après 6 mois s’ils ne sont pas utilisés.</li>
+      <li>⚠️ Les inscriptions doivent être réelles et validées. LOU peut suspendre les comptes suspects.</li>
+    </ul>
+    <p>Pour toute question, contactez notre équipe LOU sur WhatsApp ou Telegram.</p>
+  </div>
 
   <script>
     const email = new URLSearchParams(window.location.search).get("email");
 
-    fetch("https://339ba553-cb7d-4803-bc6e-25a9b5d5d04e-00-1844reqdo0fku.worf.replit.dev/generer-code", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
-    })
-    .then(res => res.json())
-    .then(data => {
-      const code = data.code;
-      document.getElementById("code").innerText = code;
-      document.getElementById("whatsapp").href = `https://wa.me/?text=Rejoins LOU avec ce code ${code} pour bénéficier d’un bonus exclusif ! 💰`;
-    });
+    if (!email) {
+      document.getElementById("code").innerText = "Email manquant dans l’URL.";
+      document.getElementById("whatsapp").style.display = "none";
+    } else {
+      fetch("https://339ba553-cb7d-4803-bc6e-25a9b5d5d04e-00-1844reqdo0fku.worf.replit.dev/generer-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const code = data.code;
+        document.getElementById("code").innerText = code;
+        document.getElementById("whatsapp").href = `https://wa.me/?text=Rejoins LOU avec ce code ${code} pour bénéficier d’un bonus exclusif ! 💰`;
+      })
+      .catch(() => {
+        document.getElementById("code").innerText = "Erreur de connexion.";
+        document.getElementById("whatsapp").style.display = "none";
+      });
+    }
+
+    function toggleInfo() {
+      const infoBox = document.getElementById("info");
+      infoBox.style.display = infoBox.style.display === "none" ? "block" : "none";
+    }
   </script>
 </body>
 </html>
+
 
 
