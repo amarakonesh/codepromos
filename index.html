@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon code de parrainage LOU</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4fff7;
+      padding: 40px;
+    }
+    .code {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2f6f5e;
+      margin-top: 20px;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      background: #3C7C69;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎁 Partagez votre code LOU</h1>
+  <p>Invitez vos amis et recevez des crédits LOU lorsqu’ils s’inscrivent.</p>
+  <div id="code" class="code">Chargement...</div>
+  <a id="whatsapp" class="btn" target="_blank">📲 Partager sur WhatsApp</a>
+
+  <script>
+    const email = new URLSearchParams(window.location.search).get("email");
+
+    fetch("https://339ba553-cb7d-4803-bc6e-25a9b5d5d04e-00-1844reqdo0fku.worf.replit.dev/generer-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const code = data.code;
+      document.getElementById("code").innerText = code;
+      document.getElementById("whatsapp").href = `https://wa.me/?text=Rejoins LOU avec ce code ${code} pour bénéficier d’un bonus exclusif ! 💰`;
+    });
+  </script>
+</body>
+</html>
+
+
